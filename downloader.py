@@ -1,7 +1,7 @@
 import requests
 
 headers = {
-    'User-Agent': 'My User Agent 1.0',
+    'User-Agent': 'Natnaree Asavaseri User Agent 1.0',
     'From': 'natnaree.as@ku.th'
 }
 
@@ -18,5 +18,5 @@ def get_page(url):
         print('GET PAGE ERROR!')
     return text.lower()
 
-# text = getpage('http://www.ku.ac.th')
-# print(text)
+# def save_page(url, text):
+#     o = urlparse(url)
