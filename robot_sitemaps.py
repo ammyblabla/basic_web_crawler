@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 import urllib.robotparser
 import requests
 from urllib.parse import urlparse
+import codecs
 
 headers = {
     'User-Agent': 'Natnaree Asavaseri Agent',
@@ -11,8 +13,11 @@ def robot_filter(url):
     robot = find_robot(url)
     if robot == None:
         return True
-    if is_fetchable_robot(robot, url):
-        return True
+    try:
+        if is_fetchable_robot(robot, url):
+            return True
+    except:
+        return False
     # print('robot error')
     return False
 
@@ -31,7 +36,7 @@ def write_link(url, op):
        write_file(url, file)
 
 def write_file(text, file, permission='a'):
-    f = open(file, permission)
+    f = codecs.open(file, permission, 'utf-8')
     f.write(text)
     f.write('\n')
     f.close()
@@ -78,7 +83,11 @@ def get_robot_list(op):
         file = 'lists_robots.txt'
     if op == 's':
         file = 'lists_sitemap.txt'
-    f = open(file, "r")
+    f = None
+    try:
+        f = open(file, "r")
+    except:
+        pass
     robot = []
     for line in f:
         robot.append(line[:-1])
@@ -92,33 +101,43 @@ def find_robot(url):
     if is_robot(url):
         find_sitemap(url)
         write_link(url, 'r')
-        r = requests.get(url + '/robots.txt', headers=headers, timeout = 2)
-        filename = urlparse(url).netloc.replace('.','-').replace('/','-')
-        write_file(r.text, f'robots/{filename}', permission='w')
-        # print(filename, r.text)
-        return url + '/robots.txt'
+        try:
+            r = requests.get(url + '/robots.txt', headers=headers, timeout = 2)
+            filename = urlparse(url).netloc.replace('.','-').replace('/','-')
+            write_file(r.text, f'robots/{filename}', permission='w')
+            # print(filename, r.text)
+            return url + '/robots.txt'
+        except:
+            return None
     return None
 
 def find_sitemap(url):
     # print('finding sitemap')
-    r = requests.get(url + '/robots.txt', headers=headers, timeout = 2)
-    # print(r.text)
     sitemaps = []
-    if r.status_code == 200:
-        lines = r.text.split('\n')
-        for i in range(len(lines)-1,-1,-1):
-            line = lines[i]
-            if line == '':
-                continue
-            if line[:8] != 'Sitemap:':
-                break
-            sitemaps.append(line[8:].strip())
+    try: 
+        r = requests.get(url + '/robots.txt', headers=headers, timeout = 2)
+    # print(r.text)
+        if r.status_code == 200:
+            lines = r.text.split('\n')
+            for i in range(len(lines)-1,-1,-1):
+                line = lines[i]
+                if line == '':
+                    continue
+                if line[:8] != 'Sitemap:':
+                    break
+                sitemaps.append(line[8:].strip())
             # print(line s[i])
-    sitemap_url = url + '/sitemap.xml'
-    # print(sitemap_url)
-    r = requests.get(sitemap_url, headers=headers, timeout = 2)
-    if len(sitemaps) > 0 or r.status_code == 200:
-        # print(f'sitemap {url}')
-        write_link(url, op='s')
-        return True
+    except:
+        pass
+    # sitemap_url = url + '/sitemap.xml'
+    # # print(sitemap_url)
+    # r = None
+    # try: 
+    #     r = requests.get(sitemap_url, headers=headers, timeout = 2)
+    # except:
+    #     return False
+    # if len(sitemaps) > 0 or r.status_code == 200:
+    #     # print(f'sitemap {url}')
+    #     write_link(url, op='s')
+    #     return True
     return False
