@@ -46,7 +46,7 @@ class robot_sitemaps ():
         if self.is_root(url) == False:
             return False
         try:
-            self.robot_request = requests.get(url + '/robots.txt', headers=headers, timeout = 2)
+            self.robot_request = requests.get(url + '/robots.txt', headers=self.headers, timeout = 2)
         except:
             self.robot_request = None
             return False
