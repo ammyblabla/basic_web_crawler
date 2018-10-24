@@ -71,14 +71,18 @@ def is_same_site(url1, url2):
     return False
 
 def is_root(url):
-    o = urlparse(url)
-    if url[-1] == '/':
-        url = url[:-1]
-    if (o.netloc == url[7:]) or (o.netloc == url[8:]):
-        return True
+    try:
+        o = urlparse(url)
+        if url[-1] == '/':
+            url = url[:-1]
+        if (o.netloc == url[7:]) or (o.netloc == url[8:]):
+            return True
+    except:
+        pass
     return False
 
 def get_robot_list(op):
+    robot = []
     if op == 'r':
         file = 'lists_robots.txt'
     if op == 's':
@@ -86,11 +90,10 @@ def get_robot_list(op):
     f = None
     try:
         f = open(file, "r")
+        for line in f:
+            robot.append(line[:-1])
     except:
         pass
-    robot = []
-    for line in f:
-        robot.append(line[:-1])
     return robot
 
 def find_robot(url):

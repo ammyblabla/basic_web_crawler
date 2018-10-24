@@ -7,7 +7,6 @@ def crawler_queue(seed_url):
     frontier_q = seed_url
     visited_q = []
     html_page = []
-    robots = []
     # while len(frontier_q) > 0:
     while len(html_page) < 10000 and len(frontier_q) > 0:
         current_url = frontier_q[0]
@@ -19,24 +18,27 @@ def crawler_queue(seed_url):
 
         res = get_page(current_url)
         text = res['text']
+        visited_q.append(current_url)
         if (res['status_code'] != 200) or (res['result'] == 0):
-            visited_q.append(current_url)
             continue
 
         if is_html(current_url):
             html_page.append(current_url)
-            save_page(current_url, text)
-            write_file(text=current_url, file='lists_html.txt', permission='a')
-
-        extracted_links = link_parser(current_url, text)
-        
+            try: 
+                save_page(current_url, text)
+                write_file(text=current_url, file='lists_html.txt', permission='a')
+            except:
+                pass
+        try:
+            extracted_links = link_parser(current_url, text)
+            for link in extracted_links:
+                if link not in frontier_q and link not in visited_q:
+                    # print(link)
+                    frontier_q.append(link)
+        except:
+            pass
         # print(text)
-        visited_q.append(current_url)
 
-        for link in extracted_links:
-            if link not in frontier_q and link not in visited_q:
-                # print(link)
-                frontier_q.append(link)
         print(f'visited queue length {len(visited_q)}')
         print(f'frontier queue length {len(frontier_q)}')
         print(f'html list {len(html_page)}')

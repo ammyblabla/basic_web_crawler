@@ -25,7 +25,7 @@ def link_parser(base_url, raw_html):
 def filter(url):
     o = urlparse(url)
     base_url = o.netloc
-    if '.php' in url:
+    if ('.php' in url) or ('pdf' in url):
         return False
     if 'ku.ac.th' not in base_url:
         return False
