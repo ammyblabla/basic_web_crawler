@@ -18,7 +18,11 @@ def save_page(input, filename, write_file=True):
    [s.extract() for s in soup('style')]
    text = soup.text.strip().replace('\xa0', ' ').replace('\n',' ').replace('\t',' ').replace('\r',' ')
    text = re.sub(r"<!--(.|\s|\n)*?-->", "", text)
-   title = soup.title.text
+   title = None
+   try:
+      title = soup.title.text
+   except:
+      pass
    o = urlparse(url)
    base_url = o.netloc
    ext = tldextract.extract(url)
