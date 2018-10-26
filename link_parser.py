@@ -40,7 +40,7 @@ def file_type_filter(url):
     o = urlparse(url)
     last_path = o.path.split('/')[-1]
     last_path = last_path.lower()
-    exclude_filetypes = ['pdf','php','js','.css','3gp', '7z', 'aac', 'ace', 'aif', 'arj', 'asf', 'avi', 'bin', 'bz2', 'exe', 'gz', 'gzip', 'img', 'iso', 'lzh', 'm4a', 'm4v', 'mkv', 'mov', 'mp3', 'mp4', 'mpa', 'mpe', 'mpeg', 'mpg', 'msi', 'msu', 'ogg', 'ogv', 'pdf', 'plj', 'pps', 'ppt', 'qt', 'r0*', 'r1*', 'ra', 'rar','rm', 'rmvb', 'sea', 'sit', 'sitx', 'tar', 'tif', 'tiff', 'wav', 'wma', 'wmv', 'z', 'zip']
+    exclude_filetypes = ['pdf','php','js','.css','3gp', '7z', 'aac', 'ace', 'aif', 'arj', 'asf', 'avi', 'bin', 'bz2', 'exe', 'gz', 'gzip', 'img', 'iso', 'lzh', 'm4a', 'm4v', 'mkv', 'mov', 'mp3', 'mp4', 'mpa', 'mpe', 'mpeg', 'mpg', 'msi', 'msu', 'ogg', 'ogv', 'pdf', 'plj', 'pps', 'ppt', 'qt', 'r0*', 'r1*', 'ra', 'rar','rm', 'rmvb', 'sea', 'sit', 'sitx', 'tar', 'tif', 'tiff', 'wav', 'wma', 'wmv', 'z', 'zip', 'jpg', 'jpeg', 'svg', 'bmp' ,'png']
     # print(last_path)
     if '.' in last_path:
         filetype = last_path.split('.')[-1]

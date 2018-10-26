@@ -3,6 +3,7 @@ import requests
 from pathlib import Path
 import codecs
 
+
 headers = {
     'User-Agent': 'Natnaree Asavaseri User Agent 1.0',
     'From': 'natnaree.as@ku.th'
@@ -28,25 +29,8 @@ def get_page(url):
         print('GET PAGE ERROR!')
     
     return {
+        'url': url,
         'text':text.lower(),
         'status_code': status_code,
         'result' : res
     }
-
-def save_page(url, text):
-    url_lists = url.split('/')
-    for i in range(len(url_lists)):
-        url_lists[i] = url_lists[i].replace(':','-').replace('?','-')
-    filename =  url_lists[-1]
-    dir =  'html/' + '/'.join(url_lists[2:-1])
-    # print(f'writing {filename}')
-    # print(dir)
-    # print(filename)
-    # print(dir)
-    fullname = dir + '/' + filename
-    # print(fullname)
-    Path(dir).mkdir(parents=True, exist_ok=True) 
-    Path(fullname).touch()
-    f = codecs.open(fullname, 'w','utf-8')
-    f.write(text)
-    f.close()
