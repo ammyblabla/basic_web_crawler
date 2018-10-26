@@ -3,10 +3,9 @@ from downloader import get_page
 from save_page import save_page
 from link_parser import link_parser, is_html
 import tldextract
-from bs4 import BeautifulSoup
 from  robot_sitemaps import robot_sitemaps
-from urllib.parse import urlparse
 import codecs
+from filter_method import is_english, is_url
 
 class crawler_queue():
     def __init__(self,seed_url, result_filename):
@@ -36,6 +35,11 @@ class crawler_queue():
             self.visited_q.append(current_url)
             if (res['status_code'] != 200) or (res['result'] == 0):
                 continue
+            if res['url'] != current_url:
+                if res['url'] in self.visited_q:
+                    continue
+                if res['url'] in self.frontier_q:
+                    self.frontier_q.remove(res['url'])
 
             # if is_html(current_url):
             self.html_page.append(current_url)
@@ -44,7 +48,7 @@ class crawler_queue():
             write_list(self.html_page,'lists_html.txt')
 
             try:
-                extracted_links = link_parser(current_url, text)
+                extracted_links = link_parser(res['url'], text)
                 for link in extracted_links:
                     # print(link)
                     if (get_domain(link) in self.seed_domain_list) and is_url(link) and is_english(text):
@@ -97,21 +101,3 @@ def get_domain_list(urls):
         domains.append(get_domain(url))
     print(domains)
     return domains
-
-def is_url(url):
-  try:
-    result = urlparse(url)
-    return all([result.scheme, result.netloc])
-  except ValueError:
-    return False
-
-def is_english(text):
-    soup = BeautifulSoup(text, 'html.parser')
-    attrs = soup.html.attrs
-    res = True
-    if 'lang' in attrs:
-        lang = soup.html.attrs['lang']
-        if lang != 'en':
-            return True
-    # print('is eng', res)
-    return res

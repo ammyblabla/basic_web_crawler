@@ -29,8 +29,8 @@ def get_page(url):
         print('GET PAGE ERROR!')
     
     return {
-        'url': url,
+        'url': r.url,
         'text':text.lower(),
         'status_code': status_code,
-        'result' : res
+        'result' : res,
     }
