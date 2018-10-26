@@ -46,7 +46,7 @@ class crawler_queue():
             try:
                 extracted_links = link_parser(current_url, text)
                 for link in extracted_links:
-                    print(link)
+                    # print(link)
                     if (get_domain(link) in self.seed_domain_list) and is_url(link) and is_english(text):
                         if (link not in self.frontier_q) and (link not in self.visited_q):
                             # print(link)
