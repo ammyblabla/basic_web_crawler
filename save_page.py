@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 import tldextract
 import re
-import nltk
+# import nltk
 from nltk.corpus import stopwords 
 from nltk.tokenize import word_tokenize 
 
@@ -12,7 +12,7 @@ from nltk.tokenize import word_tokenize
 def save_page(input, filename, write_file=True):
    html_doc = input['text']
    url = input['url']
-   print(f'save {url}')
+   # print(f'save {url}')
    soup = BeautifulSoup(html_doc, 'html.parser')
    [s.extract() for s in soup('script')]
    [s.extract() for s in soup('style')]
@@ -43,7 +43,7 @@ def save_page(input, filename, write_file=True):
    return res
 
 def remove_stopword(text):
-   nltk.download('stopwords')
+   # nltk.download('stopwords')
    stop_words = set(stopwords.words('english')) 
    
    word_tokens = word_tokenize(text) 

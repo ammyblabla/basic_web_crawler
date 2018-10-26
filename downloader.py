@@ -17,7 +17,7 @@ def get_page(url):
     status_code = None
     try:
         print(f'GETTING {url}')
-        r = requests.get(url, headers=headers, timeout = 2)
+        r = requests.get(url, headers=headers, timeout = 2, allow_redirects=False)
         text = r.text
         res = 1
         status_code = r.status_code

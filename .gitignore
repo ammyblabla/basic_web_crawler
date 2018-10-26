@@ -7,6 +7,7 @@ visited_q.txt
 frontier_q.txt
 frontier_q.txt
 lists_html.txt
+test.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
