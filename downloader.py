@@ -15,10 +15,12 @@ def get_page(url):
     res = 0
     r = None
     status_code = None
+    real_url = url
     try:
         print(f'GETTING {url}')
-        r = requests.get(url, headers=headers, timeout = 2, allow_redirects=False)
+        r = requests.get(url, headers=headers, timeout = 2)
         text = r.text
+        real_url = r.url
         res = 1
         status_code = r.status_code
         if r.status_code != 200:
@@ -29,7 +31,7 @@ def get_page(url):
         print('GET PAGE ERROR!')
     
     return {
-        'url': r.url,
+        'url': real_url,
         'text':text.lower(),
         'status_code': status_code,
         'result' : res,

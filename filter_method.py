@@ -14,8 +14,17 @@ def is_english(text):
     return res
 
 def is_url(url):
+  if '?' in url:
+  #   print(f'{url} HAVE ?')
+    return False
   try:
     result = urlparse(url)
     return all([result.scheme, result.netloc])
   except ValueError:
     return False
+
+def content_filter(text):
+  if 'samsung' in text:
+    if ('mobile' in text) or ('phone' in text):
+      return True 
+  return False

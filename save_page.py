@@ -5,28 +5,25 @@ from urllib.parse import urlparse
 import tldextract
 import re
 # import nltk
+import codecs
 from nltk.corpus import stopwords 
 from nltk.tokenize import word_tokenize 
 
 
-def save_page(input, filename, write_file=True):
-   html_doc = input['text']
-   url = input['url']
-   # print(f'save {url}')
-   soup = BeautifulSoup(html_doc, 'html.parser')
-   [s.extract() for s in soup('script')]
-   [s.extract() for s in soup('style')]
-   text = soup.text.strip().replace('\xa0', ' ').replace('\n',' ').replace('\t',' ').replace('\r',' ')
-   text = re.sub(r"<!--(.|\s|\n)*?-->", "", text)
-   title = None
-   try:
-      title = soup.title.text
-   except:
-      pass
+def save_page(input_request, filename, write_file=True):
+   html_doc = input_request['text']
+   url = input_request['url']
+   text_dict = clean_text(html_doc)
+   text = text_dict['text']
+   title = text_dict['title']
+   domain_name = ''
    o = urlparse(url)
    base_url = o.netloc
-   ext = tldextract.extract(url)
-   domain_name = '.'.join(ext[1:])
+   try:
+      ext = tldextract.extract(url)
+      domain_name = '.'.join(ext[1:])
+   except:
+      print(f'SAVE PAGE ERROR {url}')
    remove_stopword_word_tokens = remove_stopword(text)
    remove_stopword_text = ' '.join(remove_stopword_word_tokens)
 
@@ -40,7 +37,7 @@ def save_page(input, filename, write_file=True):
       'remove_stopword_text': remove_stopword_text
    }
 
-   with open(filename,'a') as f:
+   with codecs.open(filename,'a',encoding='utf-8') as f:
       json.dump(res,f)
       f.write('\n')
 
@@ -55,8 +52,18 @@ def remove_stopword(text):
    # print(filtered_sentence) 
    return filtered_sentence
 
-# filename = 'test.json'
-# url = 'https://sea.pcmag.com/smartphones/73/the-best-phones'
-# input = get_page(url)
-# res = save_page(input, filename, write_file=False)
-# print(res)
+def clean_text(raw_text):
+   soup = BeautifulSoup(raw_text, 'html.parser')
+   [s.extract() for s in soup('script')]
+   [s.extract() for s in soup('style')]
+   text = soup.text.strip().replace('\xa0', ' ').replace('\n',' ').replace('\t',' ').replace('\r',' ')
+   text = re.sub(r"<!--(.|\s|\n)*?-->", "", text)
+   title = ''
+   try:
+      title = soup.title.text
+   except:
+      pass
+   return {
+      'title': title,
+      'text': text,
+   }

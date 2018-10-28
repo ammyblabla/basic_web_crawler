@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from downloader import get_page
-from save_page import save_page
+from save_page import save_page,clean_text
 from link_parser import link_parser, is_html
 import tldextract
 from  robot_sitemaps import robot_sitemaps
 import codecs
-from filter_method import is_english, is_url
+from filter_method import is_english, is_url, content_filter
 
 class crawler_queue():
     def __init__(self,seed_url, result_filename):
-        self.frontier_q = seed_url +  get_exist_link('frontier_q.txt')
+        self.frontier_q = list(set(seed_url +  get_exist_link('frontier_q.txt')))
         self.html_page = get_exist_link('lists_html.txt')
         self.visited_q  = get_exist_link('visited_q.txt')
         self.seed_domain_list = get_domain_list(seed_url)
@@ -23,6 +23,8 @@ class crawler_queue():
 
     def run(self):
         while len(self.html_page) < 10000 and len(self.frontier_q) > 0:
+            # print(type(self.frontier_q))
+            # print(type(self.frontier_q[0]))
             current_url = self.frontier_q[0]
             self.frontier_q = self.frontier_q[1:]
             text = ''
@@ -41,9 +43,15 @@ class crawler_queue():
                 if res['url'] in self.frontier_q:
                     self.frontier_q.remove(res['url'])
 
+            if not content_filter(clean_text(text)['text']):
+                print('FALSE')
+                continue
+            # else:
+            #     print(current_url)
+
             # if is_html(current_url):
-            self.html_page.append(current_url)
             save_page(res, self.filename, write_file=True)
+            self.html_page.append(res['url'])
             # self.robot_obj.write_file(text=current_url, file='lists_html.txt', permission='a')
             write_list(self.html_page,'lists_html.txt')
 
@@ -99,5 +107,5 @@ def get_domain_list(urls):
     domains = []
     for url in urls:
         domains.append(get_domain(url))
-    print(domains)
+    # print(domains)
     return domains
