@@ -12,13 +12,10 @@ class proxy ():
    def __init__(self):
       self.page_number = 0
       self.proxies = self.get_proxies()
-      self.headers = {
-         'User-Agent': 'Natnaree Asavaseri User Agent 1.0',
-         'From': 'natnaree.as@ku.th'
-      }
+      self.proxy = None
+      self.header = None
 
    def get_proxies(self):
-      print('eieieie')
       proxies_req = Request('https://www.sslproxies.org/')
       proxies_req.add_header('User-Agent', ua.random)
       proxies_doc = urlopen(proxies_req).read().decode('utf8')
@@ -41,15 +38,24 @@ class proxy ():
          self.proxy = {
             'http' : f"""http://{proxies[proxy_index]['ip']}:{proxies[proxy_index]['port']}"""
          }
-      req = requests.get(url, timeout=2, proxies=self.proxy)
-      print(self.proxy)
+         self.headers = self.get_header()
+      req = requests.get(url, timeout=2, proxies=self.proxy, headers=self.headers)
+      # print(self.proxy)
       return req
    # Choose a random proxy
 
    def random_proxy(self):
       return random.randint(0, len(self.proxies) - 1)
 
-if __name__ == '__main__':
-   proxy_obj = proxy()
-   r = proxy_obj.request_page('https://sea.pcmag.com/')
-   print(r.status_code)
+   def get_header(self):
+      # Please change your email
+      return {
+        'User-Agent': ua.random,
+        'from': 'natnaree.as@ku.th'
+      }
+      
+
+# if __name__ == '__main__':
+#    proxy_obj = proxy()
+#    r = proxy_obj.request_page('https://sea.pcmag.com/')
+#    print(r.status_code)

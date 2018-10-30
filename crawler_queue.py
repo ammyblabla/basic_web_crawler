@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from downloader import get_page
+from downloader import downloader
 from save_page import save_page,clean_text
 from link_parser import link_parser, is_html
 import tldextract
@@ -15,6 +15,7 @@ class crawler_queue():
         self.seed_domain_list = get_domain_list(seed_url)
         self.robot_obj = robot_sitemaps()
         self.filename = result_filename
+        self.downloader = downloader()
     # self.frontier_q = seed_url
     # self.visited_q = []
     # self.html_page = []
@@ -32,7 +33,7 @@ class crawler_queue():
                 self.visited_q.append(current_url)
                 continue
 
-            res = get_page(current_url)
+            res = self.downloader.get_page(current_url)
             text = res['text']
             self.visited_q.append(current_url)
             if (res['status_code'] != 200) or (res['result'] == 0):
