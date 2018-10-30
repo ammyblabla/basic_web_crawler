@@ -3,6 +3,8 @@ import urllib.robotparser
 import requests
 from urllib.parse import urlparse
 import codecs
+from proxy_request import proxy
+
 
 class robot_sitemaps ():
     def __init__(self):
@@ -13,6 +15,7 @@ class robot_sitemaps ():
         self.robot_request = None
         # self.sitemaps = []
         self.robots = self.get_robot_list('r')
+        self.proxy_obj = proxy()
 
     def robot_filter(self,url):
         robot = self.find_robot(url)
@@ -44,9 +47,10 @@ class robot_sitemaps ():
 
     def is_robot(self,url):
         if self.is_root(url) == False:
+            self.robot_request = None
             return False
         try:
-            self.robot_request = requests.get(url + '/robots.txt', headers=self.headers, timeout = 2)
+            self.robot_request =self.proxy_obj.request_page(url + '/robots.txt')
         except:
             self.robot_request = None
             return False

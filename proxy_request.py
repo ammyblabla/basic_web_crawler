@@ -5,7 +5,6 @@ import random
 import requests
 
 ua = UserAgent() # From here we generate a random user agent
-proxies = [] # Will contain proxies [ip, port]
 
 # Main function
 class proxy ():
@@ -16,6 +15,7 @@ class proxy ():
       self.header = None
 
    def get_proxies(self):
+      proxies = []
       proxies_req = Request('https://www.sslproxies.org/')
       proxies_req.add_header('User-Agent', ua.random)
       proxies_doc = urlopen(proxies_req).read().decode('utf8')
@@ -48,7 +48,7 @@ class proxy ():
       # req = requests.get(url, timeout=2, proxies=self.proxy, verify=True)
       # req = requests.get(url, timeout=2)
       # print(self.proxy)
-      print('proxy done')
+      # print('proxy done')
       return req
    # Choose a random proxy
 

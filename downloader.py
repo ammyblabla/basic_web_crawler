@@ -27,7 +27,7 @@ class downloader():
         except(KeyboardInterrupt, SystemExit):
             raise
         except Exception as e:
-            # print(e)
+            print(e)
             print('GET PAGE ERROR!')
         
         return {
