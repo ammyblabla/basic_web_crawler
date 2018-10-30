@@ -32,15 +32,23 @@ class proxy ():
       return proxies
 
    def request_page(self,url):
-      if self.page_number % 10 == 0:
-         proxy_index = self.random_proxy()
-         # req.set_proxy(self.proxy['ip'] + ':' + self.proxy['port'], 'http')
+      if self.page_number % 5 == 0:
+         proxy_index_http = self.random_proxy()
+         proxy_index_https = self.random_proxy()
+         proxy_http = self.proxies[proxy_index_http]
+         proxy_https = self.proxies[proxy_index_https]
+         # while(proxy_https['Https'] != 'Yes'):
+         #    proxy_https = self.proxies[proxy_index_https]
          self.proxy = {
-            'http' : f"""http://{proxies[proxy_index]['ip']}:{proxies[proxy_index]['port']}"""
+            'http' : f"""http://{proxy_http['ip']}:{proxy_http['port']}""",
+            'https' : f"""http://{proxy_https['ip']}:{proxy_https['port']}"""
          }
          self.headers = self.get_header()
-      req = requests.get(url, timeout=2, proxies=self.proxy, headers=self.headers)
+      req = requests.get(url, timeout=2, proxies=self.proxy, headers=self.headers, verify=True)
+      # req = requests.get(url, timeout=2, proxies=self.proxy, verify=True)
+      # req = requests.get(url, timeout=2)
       # print(self.proxy)
+      print('proxy done')
       return req
    # Choose a random proxy
 
