@@ -51,10 +51,10 @@ class robot_sitemaps ():
             return False
         try:
             self.robot_request =self.proxy_obj.request_page(url + '/robots.txt')
+            if self.robot_request.status_code != 200:
+                return False
         except:
             self.robot_request = None
-            return False
-        if self.robot_request.status_code != 200:
             return False
         lines = self.robot_request.text.split('\n')
         if lines[0] == '<!DOCTYPE html>':

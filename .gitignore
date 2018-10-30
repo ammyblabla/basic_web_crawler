@@ -1,12 +1,11 @@
 restore/
 html/
 html/
+zdnet/
 
 test.py
 visited_q.txt
-frontier_q.txt
-frontier_q.txt
-lists_html.txt
+*.txt
 *.json
 keyword.csv
 phone_dataset.csv

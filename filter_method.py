@@ -8,23 +8,26 @@ def is_english(text):
     res = True
     if 'lang' in attrs:
         lang = soup.html.attrs['lang']
-        if lang != 'en':
+        if not 'en' in lang:
+            print('IS NOT ENGLISH')
             return False
     # print('is eng', res)
     return res
 
 def is_url(url):
   if '?' in url:
-  #   print(f'{url} HAVE ?')
+    print(f'{url} HAVE ?')
     return False
   try:
     result = urlparse(url)
     return all([result.scheme, result.netloc])
   except ValueError:
+    print('IS NOT URL')
     return False
 
 def content_filter(text):
   if 'samsung' in text:
     if ('mobile' in text) or ('phone' in text):
       return True 
+  print('NOT RELATE PAGE')
   return False

@@ -39,6 +39,8 @@ class proxy ():
             proxy_index_https = self.random_proxy()
             proxy_http = self.proxies[proxy_index_http]
             proxy_https = self.proxies[proxy_index_https]
+         if self.page_number % 100 == 0:
+            self.proxies = self.get_proxies()
          # while(proxy_https['Https'] != 'Yes'):
          #    proxy_https = self.proxies[proxy_index_https]
          self.proxy = {
@@ -48,7 +50,7 @@ class proxy ():
          self.headers = self.get_header()
          req = requests.get(url, timeout=2, proxies=self.proxy, headers=self.headers, verify=True)
       except Exception as e:
-         print(e)
+         # print(e)
          print('GET PAGE ERROR!')
       return req
 
