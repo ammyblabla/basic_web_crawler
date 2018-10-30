@@ -8,14 +8,12 @@ def is_english(text):
     res = True
     if 'lang' in attrs:
         lang = soup.html.attrs['lang']
-        if lang != 'en':
+        if not 'en' in lang:
             return False
-    # print('is eng', res)
     return res
 
 def is_url(url):
   if '?' in url:
-  #   print(f'{url} HAVE ?')
     return False
   try:
     result = urlparse(url)
