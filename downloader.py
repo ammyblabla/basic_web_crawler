@@ -2,7 +2,7 @@
 import requests
 from pathlib import Path
 import codecs
-
+from proxy_request import proxy
 
 headers = {
     'User-Agent': 'Natnaree Asavaseri User Agent 1.0',

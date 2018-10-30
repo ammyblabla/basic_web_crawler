@@ -59,6 +59,7 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+pcmac/
 
 # Translations
 *.mo
@@ -115,3 +116,5 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+test.json
+test.json

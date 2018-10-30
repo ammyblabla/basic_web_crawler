@@ -10,5 +10,5 @@ def get_seed(filename):
 
 filename = 'seed.txt'
 seeds = get_seed(filename)
-obj = crawler_queue(seeds, 'test.json')
+obj = crawler_queue(seeds, 'zdnet.json')
 obj.run()
