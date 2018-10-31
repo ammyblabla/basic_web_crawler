@@ -8,7 +8,7 @@ def get_seed(filename):
     except:
         return []
 
-filename = 'seed.txt'
+filename = 'new_seed.txt'
 seeds = get_seed(filename)
-obj = crawler_queue(seeds, 'test.json')
+obj = crawler_queue(seeds, 'zdnet.json')
 obj.run()

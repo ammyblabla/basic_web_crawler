@@ -23,12 +23,12 @@ def get_page(url):
         real_url = r.url
         res = 1
         status_code = r.status_code
-        if r.status_code != 200:
-            print('PAGE HAS PROBLEM!', status_code)
+        # if r.status_code != 200:
+        #     print('STATUS NOT 200')
+            # return
+            # print('PAGE HAS PROBLEM!', status_code)
     except(KeyboardInterrupt, SystemExit):
         raise
-    except:
-        print('GET PAGE ERROR!')
     
     return {
         'url': real_url,

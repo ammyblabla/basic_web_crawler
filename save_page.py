@@ -19,11 +19,10 @@ def save_page(input_request, filename, write_file=True):
    domain_name = ''
    o = urlparse(url)
    base_url = o.netloc
-   try:
-      ext = tldextract.extract(url)
-      domain_name = '.'.join(ext[1:])
-   except:
-      print(f'SAVE PAGE ERROR {url}')
+   
+   ext = tldextract.extract(url)
+   domain_name = '.'.join(ext[1:])
+
    remove_stopword_word_tokens = remove_stopword(text)
    remove_stopword_text = ' '.join(remove_stopword_word_tokens)
 
@@ -40,6 +39,7 @@ def save_page(input_request, filename, write_file=True):
    with codecs.open(filename,'a',encoding='utf-8') as f:
       json.dump(res,f)
       f.write('\n')
+   print('SAVE PAGE SUCCCESSFUL')
 
    return res
 

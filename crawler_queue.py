@@ -11,7 +11,7 @@ class crawler_queue():
     def __init__(self,seed_url, result_filename):
         self.frontier_q = list(set(seed_url +  get_exist_link('frontier_q.txt')))
         self.html_page = get_exist_link('lists_html.txt')
-        self.visited_q  = get_exist_link('visited_q.txt')
+        self.visited_q  = list(set(get_exist_link('visited_q.txt') + self.html_page))
         self.seed_domain_list = get_domain_list(seed_url)
         self.robot_obj = robot_sitemaps()
         self.filename = result_filename
@@ -31,29 +31,44 @@ class crawler_queue():
             if (not (self.robot_obj.robot_filter(current_url))):
                 self.visited_q.append(current_url)
                 continue
+            res = None
+            try:
+                res = get_page(current_url)
+            except:
+                print('GET PAGE ERROR IN QUEUE')
+                continue
 
-            res = get_page(current_url)
             text = res['text']
             self.visited_q.append(current_url)
             if (res['status_code'] != 200) or (res['result'] == 0):
+                print('REQUEST NOT SUCCESSFUL')
                 continue
             if res['url'] != current_url:
+                print('REDIRECT')
                 if res['url'] in self.visited_q:
                     continue
                 if res['url'] in self.frontier_q:
                     self.frontier_q.remove(res['url'])
 
             if not content_filter(clean_text(text)['text']):
-                print('FALSE')
+                print('CONTENT ERROR')
                 continue
             # else:
             #     print(current_url)
 
             # if is_html(current_url):
-            save_page(res, self.filename, write_file=True)
+            try:
+                save_page(res, self.filename, write_file=True)
+                # print('SAVE PAGE')
+            except:
+                print('SAVE PAGE ERROR')
+                continue
+
             self.html_page.append(res['url'])
+            self.html_page = list(set(self.html_page))
             # self.robot_obj.write_file(text=current_url, file='lists_html.txt', permission='a')
             write_list(self.html_page,'lists_html.txt')
+            print('ADD IN HTML LIST')
 
             try:
                 extracted_links = link_parser(res['url'], text)
@@ -70,6 +85,9 @@ class crawler_queue():
                 print('EXTRACT LINK ERROR')
                 pass
             # print(text)
+            self.visited_q = list(set(self.visited_q))
+            self.frontier_q = list(set(self.frontier_q))
+
             print(f'visited queue length {len(self.visited_q)}')
             print(f'frontier queue length {len(self.frontier_q)}')
             print(f'html list {len(self.html_page)}')
