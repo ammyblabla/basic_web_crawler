@@ -6,6 +6,7 @@ import tldextract
 from  robot_sitemaps import robot_sitemaps
 import codecs
 from filter_method import is_english, is_url, content_filter
+from url_normalize import url_normalize
 
 class crawler_queue():
     def __init__(self,seed_url, result_filename):
@@ -36,6 +37,7 @@ class crawler_queue():
                 res = get_page(current_url)
             except:
                 print('GET PAGE ERROR IN QUEUE')
+                # self.frontier_q.append(current_url)
                 continue
 
             text = res['text']
@@ -58,7 +60,7 @@ class crawler_queue():
 
             # if is_html(current_url):
             try:
-                save_page(res, self.filename, write_file=True)
+                self.html_page.append(url_normalize(res['url']))
                 # print('SAVE PAGE')
             except:
                 print('SAVE PAGE ERROR')

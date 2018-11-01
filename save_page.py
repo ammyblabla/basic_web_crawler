@@ -8,6 +8,8 @@ import re
 import codecs
 from nltk.corpus import stopwords 
 from nltk.tokenize import word_tokenize 
+from url_normalize import url_normalize
+
 
 
 def save_page(input_request, filename, write_file=True):
@@ -27,7 +29,7 @@ def save_page(input_request, filename, write_file=True):
    remove_stopword_text = ' '.join(remove_stopword_word_tokens)
 
    res = {
-      'link' : url,
+      'link' : url_normalize(url),
       'title' : title,
       'domain_name' : domain_name,
       'base_url' : base_url,
