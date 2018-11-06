@@ -1,0 +1,6 @@
+[submodule "webir_elasticserch"]
+	path = webir_elasticserch
+	url = https://github.com/ammyblabla/webir_elasticserch
+[submodule "elasticsearch"]
+	path = elasticsearch
+	url = https://github.com/ammyblabla/webir_elasticsearch
