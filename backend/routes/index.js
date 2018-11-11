@@ -7,8 +7,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log(req.body);
-  res.render('form', {title: 'Registration form'});
+  console.log(req.body.name);
+  res.render('result', {title: 'Registration form', name: req.body.name});
 });
 
 module.exports = router
