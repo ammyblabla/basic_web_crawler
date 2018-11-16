@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="container">
+    <form action="{% url 'search' %}" method="GET">
+        <div class="col-md-12" style="margin-top:25px">
+            Mobile Search
+            <input id='keyword' type="text" name="q-samsung" title="Search" value={{keyword}}>
+            <input type="submit" class="btn btn-light" value="Search" />
+        </div>
+    </form>
+</div>
+
+<div class="result">
+    {% for res in result %}
+        <div class="content">
+            <a href={{res.link}}>{{res.link}}</a>
+            <p>{{res.title}}</p>
+            {{res.summary.0}}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block stylesheet %}
+    <style type="text/css">
+        body{
+            font-family: 'Monoton', cursive;
+            font-size: 80px;
+            background-image: url("{% static 'img/bg3.jpg' %}");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100%;
+        }
+        .text{
+            background: linear-gradient(to right, #30CFD0 0%, #330867 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="hero is-fullheight is-hidden-widescreen-only">
+    <div class="center">
+        <h1 class="text" style="margin-top: 15%; font-family: 'Monoton', cursive !important; font-size: 110px ">
+            Mobile   Search
+        </h1>
+    </div>
+
+    <div class="center is-overlay" style="margin-top: 3%;">
+        <div class="field has-addons">
+            <form action="{% url 'search' %}" method="GET">
+                <div class="control">
+                    <div class="col-md-10" style="font-family: 'Glacial Indifference' !important">
+                        <input class="input" id='keyword' type="text" name="q-samsung" title="Search" placeholder="Search.." size="60" type="text" />
+                    </div>
+                    <div class="col-md-2" style="font-family: 'Monoton', cursive;">
+                        <input type="submit" class="button is-info" value="Go"/>
+                    </div>
+                </div>  
+            </form> 
+        </div>
+    </div>
+</div>
+{% endblock %}
