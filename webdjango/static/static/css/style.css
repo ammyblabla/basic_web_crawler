@@ -1,3 +1,15 @@
 .h1{
 	font-family: 'Monoton', cursive;
 }
+
+.font{
+	font-family: 'Monoton', cursive;
+}
+
+div.a{
+	display: block;
+	white-space: nowrap; 
+    width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
