@@ -1,21 +1,30 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
+{% block stylesheet %}
+    <style type="text/css">
+        
+        .text{
+            background: linear-gradient(to right, #30CFD0 0%, #330867 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+{% endblock %}
 {% block content %}
 <div class="container">
     <form action="{% url 'search' %}" method="GET">
         <div class="col-md-12" style="margin-top:25px">
             <!-- Mobile   Search -->
-            <font class="text" style="font-family: 'Monoton', cursive !important; font-size: 20px">
+            <a class="text" style="font-family: 'Monoton', cursive !important; font-size: 20px" href="{% url 'index' %}">
             Mobile   Search &nbsp;
-            </font>
+            </a>
             <input id='keyword' type="text" name="q-samsung" title="Search" value={{keyword}}>
             <input type="submit" class="btn btn-light" value="Search" />
         </div>
     </form>
 </div>
 
-<div class="result">
+<div class="result" >
     <!-- <p>{{result}}</p> -->
     {% for res in result %}
         <div class="content">
@@ -32,7 +41,7 @@
     {% endfor %}
 </div>
 
-<div class="pagination">
+<div class="pagination center">
     <span class="step-links">
         {% if result.has_previous %}
             <a href="{% url 'search' %}?q-samsung={{keyword}}&page=1">&laquo; first</a>
