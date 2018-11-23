@@ -17,11 +17,12 @@ def search(request, keyword=None, page=1, obj=searcher()):
     if keyword == None:
         return redirect('index')
     try:
-        result = obj.search(keyword, sum_op = 'url', SENTENCES_COUNT=2)
+        result = obj.search(keyword, sum_op = 'text', SENTENCES_COUNT=2)
         paginator = Paginator(result, 10)
         get_page = request.GET.get('page')
         result = paginator.get_page(get_page)
-    except:
+    except Exception as e:
+        print(e)
         result = None
     context = {'keyword': keyword, 'result' : result, 'page' : page}
     template = 'search.html'
